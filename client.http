@@ -1,0 +1,16 @@
+### Get dotnet process list
+GRPC localhost:5197/monitor.Agent/GetProcessList
+
+### Get dotnet process details
+GRPC localhost:5197/monitor.Agent/GetProcessDetails
+
+{
+  "process_id": {{process-id}}
+}
+
+### Get dotnet process environment variables
+GRPC localhost:5197/monitor.Agent/GetProcessEnvironment
+
+{
+  "process_id": {{process-id}}
+}
