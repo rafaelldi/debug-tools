@@ -1,7 +1,6 @@
 using Grpc.Core;
-using MonitorAgent.ProcessList;
 
-namespace MonitorAgent.Services;
+namespace MonitorAgent.Processes;
 
 internal sealed class ProcessManager(ProcessHandler processHandler) : MonitorAgent.ProcessManager.ProcessManagerBase
 {

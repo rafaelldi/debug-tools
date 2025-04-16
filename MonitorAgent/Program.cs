@@ -1,5 +1,4 @@
-using MonitorAgent.ProcessList;
-using MonitorAgent.Services;
+using MonitorAgent.Processes;
 
 var builder = WebApplication.CreateBuilder(args);
 

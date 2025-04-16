@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Globalization;
 using Microsoft.Diagnostics.NETCore.Client;
 
-namespace MonitorAgent.ProcessList;
+namespace MonitorAgent.Processes;
 
 internal sealed class ProcessHandler
 {
