@@ -9,6 +9,6 @@ builder.Services.AddScoped<ProcessHandler>();
 
 var app = builder.Build();
 
-app.MapGrpcService<AgentService>();
+app.MapGrpcService<ProcessManager>();
 
 app.Run();
