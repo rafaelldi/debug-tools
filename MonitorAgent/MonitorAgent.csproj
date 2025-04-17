@@ -13,7 +13,9 @@
 
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.64.0"/>
+        <PackageReference Include="JetBrains.Lifetimes" Version="2025.1.1"/>
         <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.621003"/>
+        <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.20"/>
     </ItemGroup>
 
 </Project>

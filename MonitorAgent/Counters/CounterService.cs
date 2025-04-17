@@ -9,10 +9,11 @@ internal sealed class CounterService(CounterManager counterManager) : MonitorAge
     {
         try
         {
-            var reader = counterManager.GetCounterStream(request, context.CancellationToken);
+            var lifetimeDefinition = context.CancellationToken.ToLifetimeDefinition();
+            var reader = counterManager.GetCounterStream(request, lifetimeDefinition.Lifetime);
             await foreach (var counterValue in reader.ReadAllAsync(context.CancellationToken))
             {
-                await responseStream.WriteAsync(counterValue);
+                await responseStream.WriteAsync(counterValue, context.CancellationToken);
             }
         }
         catch (OperationCanceledException)
