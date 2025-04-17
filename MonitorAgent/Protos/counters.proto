@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "MonitorAgent";
+
+package monitor;
+
+service CounterManager {
+  rpc GetCounterStream (CounterStreamRequest) returns (stream CounterValue);
+}
+
+message CounterStreamRequest {
+  int32 process_id = 1;
+}
+
+message CounterValue {
+  string name = 1;
+}
