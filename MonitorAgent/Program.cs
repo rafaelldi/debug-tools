@@ -5,12 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 
-builder.Services.AddScoped<ProcessHandler>();
-builder.Services.AddScoped<CounterHandler>();
+builder.Services.AddScoped<ProcessManager>();
+builder.Services.AddScoped<CounterManager>();
 
 var app = builder.Build();
 
-app.MapGrpcService<ProcessManager>();
-app.MapGrpcService<CounterManager>();
+app.MapGrpcService<ProcessService>();
+app.MapGrpcService<CounterService>();
 
 app.Run();

@@ -1,34 +1,75 @@
-using Grpc.Core;
+using System.Diagnostics;
+using System.Globalization;
+using Microsoft.Diagnostics.NETCore.Client;
 
 namespace MonitorAgent.Processes;
 
-internal sealed class ProcessManager(ProcessHandler processHandler) : MonitorAgent.ProcessManager.ProcessManagerBase
+internal sealed class ProcessManager
 {
-    public override Task<ProcessListResponse> GetProcessList(ProcessListRequest request, ServerCallContext context)
-    {
-        var processes = processHandler.GetProcessList();
-        var response = new ProcessListResponse();
-        response.Processes.AddRange(processes);
-        return Task.FromResult(response);
-    }
+    private const string MonitorAgentProcessName = "MonitorAgent";
 
-    public override Task<ProcessDetailsResponse> GetProcessDetails(ProcessDetailsRequest request,
-        ServerCallContext context)
+    internal List<ProcessInfo> GetProcessList()
     {
-        var processDetails = processHandler.GetProcessDetails(request.ProcessId);
-        var response = new ProcessDetailsResponse
+        var processIds = DiagnosticsClient.GetPublishedProcesses().ToList();
+        var result = new List<ProcessInfo>(processIds.Count);
+        foreach (var pid in processIds)
         {
-            Details = processDetails
-        };
-        return Task.FromResult(response);
+            var process = Process.GetProcessById(pid);
+            if (process.ProcessName == MonitorAgentProcessName) continue;
+
+            result.Add(new ProcessInfo
+            {
+                ProcessId = pid,
+                ProcessName = process.ProcessName
+            });
+        }
+
+        return result;
     }
 
-    public override Task<ProcessEnvironmentResponse> GetProcessEnvironment(ProcessEnvironmentRequest request,
-        ServerCallContext context)
+    internal ProcessDetails? GetProcessDetails(int pid)
     {
-        var processEnvironment = processHandler.GetProcessEnvironment(request.ProcessId);
-        var response = new ProcessEnvironmentResponse();
-        response.Environment.AddRange(processEnvironment);
-        return Task.FromResult(response);
+        try
+        {
+            var client = new DiagnosticsClient(pid);
+            var process = Process.GetProcessById(pid);
+            var filename = process.MainModule?.FileName;
+            var startTime = process.StartTime.ToString(CultureInfo.InvariantCulture);
+            var additionalProcessInfo = client.GetProcessInfo();
+
+            return new ProcessDetails
+            {
+                ProcessId = pid,
+                Filename = filename,
+                StartTime = startTime,
+                CommandLine = additionalProcessInfo.CommandLine,
+                OperatingSystem = additionalProcessInfo.OperatingSystem,
+                ProcessArchitecture = additionalProcessInfo.ProcessArchitecture
+            };
+        }
+        catch (ArgumentException)
+        {
+            return null;
+        }
+    }
+
+    internal List<ProcessEnvironment> GetProcessEnvironment(int pid)
+    {
+        try
+        {
+            var client = new DiagnosticsClient(pid);
+            return client
+                .GetProcessEnvironment()
+                .Select(it => new ProcessEnvironment
+                {
+                    Key = it.Key,
+                    Value = it.Value
+                })
+                .ToList();
+        }
+        catch (ArgumentException)
+        {
+            return [];
+        }
     }
 }

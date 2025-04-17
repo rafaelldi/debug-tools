@@ -1,23 +1,18 @@
-using Grpc.Core;
+using System.Threading.Channels;
 
 namespace MonitorAgent.Counters;
 
-internal sealed class CounterManager(CounterHandler counterHandler) : MonitorAgent.CounterManager.CounterManagerBase
+internal sealed class CounterManager
 {
-    public override async Task GetCounterStream(CounterStreamRequest request,
-        IServerStreamWriter<CounterValue> responseStream, ServerCallContext context)
+    internal ChannelReader<CounterValue> GetCounterStream(CounterStreamRequest request,
+        CancellationToken cancellationToken)
     {
-        try
+        var channel = Channel.CreateUnbounded<CounterValue>(new UnboundedChannelOptions
         {
-            var reader = counterHandler.GetCounterStream(request, context.CancellationToken);
-            await foreach (var counterValue in reader.ReadAllAsync(context.CancellationToken))
-            {
-                await responseStream.WriteAsync(counterValue);
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            //do nothing
-        }
+            SingleReader = true,
+            SingleWriter = true,
+        });
+
+        return channel.Reader;
     }
 }
