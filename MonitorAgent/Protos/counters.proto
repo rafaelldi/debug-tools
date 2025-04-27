@@ -4,6 +4,8 @@ option csharp_namespace = "MonitorAgent";
 
 package monitor;
 
+import "google/protobuf/timestamp.proto";
+
 service CounterService {
   //Get stream of dotnet event counters for the process
   rpc GetCounterStream (CounterStreamRequest) returns (stream CounterValue);
@@ -13,6 +15,17 @@ message CounterStreamRequest {
   int32 process_id = 1;
 }
 
+enum CounterType {
+  METRIC = 0;
+  RATE = 1;
+}
+
 message CounterValue {
-  string name = 1;
+  google.protobuf.Timestamp timestamp = 1;
+  string name = 2;
+  string display_name = 3;
+  string provider_name = 4;
+  double value = 5;
+  CounterType type = 6;
+  optional string tags = 7;
 }

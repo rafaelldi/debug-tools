@@ -7,21 +7,27 @@ namespace MonitorAgent.Counters;
 internal sealed class CounterSessionConfiguration
 {
     private const string IntervalArgument = "EventCounterIntervalSec";
-    private const string DefaultInterval = "1";
+    private const int DefaultInterval = 1;
+    private const int DefaultCircularBufferMb = 256;
 
     internal string SessionId { get; } = Guid.NewGuid().ToString();
+    internal int RefreshInterval => DefaultInterval;
+    internal bool RequestRundown => false;
+    internal int CircularBufferMb => DefaultCircularBufferMb;
+    internal int ProcessId { get; }
+    internal EventPipeProvider Provider { get; }
 
-    internal EventPipeProvider Provider { get; } = new(
-        Providers.SystemRuntimeProvider,
-        EventLevel.Informational,
-        (long)EventKeywords.None,
-        new Dictionary<string, string>
-        {
-            [IntervalArgument] = DefaultInterval
-        }
-    );
-
-    internal bool RequestRundown { get; } = false;
-
-    internal int CircularBufferMb { get; } = 256;
+    public CounterSessionConfiguration(int processId)
+    {
+        ProcessId = processId;
+        Provider = new EventPipeProvider(
+            Providers.SystemRuntimeProvider,
+            EventLevel.Informational,
+            (long)EventKeywords.None,
+            new Dictionary<string, string>
+            {
+                [IntervalArgument] = RefreshInterval.ToString()
+            }
+        );
+    }
 }
