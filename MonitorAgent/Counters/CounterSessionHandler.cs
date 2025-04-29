@@ -1,5 +1,5 @@
+using System.Globalization;
 using System.Threading.Channels;
-using Google.Protobuf.WellKnownTypes;
 using JetBrains.Lifetimes;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing;
@@ -114,16 +114,22 @@ internal sealed class CounterSessionHandler
         int refreshInterval)
     {
         var displayUnits = string.IsNullOrEmpty(units) ? "Count" : units;
-        return new CounterValue
+        var counter = new CounterValue
         {
-            Timestamp = Timestamp.FromDateTime(timestamp),
+            Timestamp = timestamp.ToString(CultureInfo.CurrentCulture),
             Name = name,
             DisplayName = $"{name} ({displayUnits} / {refreshInterval} sec)",
             ProviderName = providerName,
             Value = Math.Round(value, 2),
-            Type = CounterType.Rate,
-            Tags = tags
+            Type = CounterType.Rate
         };
+
+        if (tags is not null)
+        {
+            counter.Tags = tags;
+        }
+
+        return counter;
     }
 
     private static CounterValue MapToMetricCounter(
@@ -134,16 +140,22 @@ internal sealed class CounterSessionHandler
         double value,
         string? tags)
     {
-        return new CounterValue
+        var counter = new CounterValue
         {
-            Timestamp = Timestamp.FromDateTime(timestamp),
+            Timestamp = timestamp.ToString(CultureInfo.CurrentCulture),
             Name = name,
             DisplayName = string.IsNullOrEmpty(units) ? name : $"{name} ({units})",
             ProviderName = providerName,
             Value = Math.Round(value, 2),
-            Type = CounterType.Metric,
-            Tags = tags
+            Type = CounterType.Metric
         };
+
+        if (tags is not null)
+        {
+            counter.Tags = tags;
+        }
+
+        return counter;
     }
 
     private static async Task WaitToCancellationAndStopSession(EventPipeSession session)
