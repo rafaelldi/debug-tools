@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Grpc.Core;
 using Grpc.Net.Client;
-using MonitorClient;
+using MonitorAgent;
 
 using var channel = GrpcChannel.ForAddress("http://localhost:5197");
 

@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos/processes.proto"/>
-        <Protobuf Include="Protos/counters.proto"/>
+        <Protobuf Include="../Protos/processes.proto"/>
+        <Protobuf Include="../Protos/counters.proto"/>
     </ItemGroup>
 
     <ItemGroup>

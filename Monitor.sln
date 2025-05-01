@@ -7,9 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		client.http = client.http
 		http-client.env.json = http-client.env.json
+		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorClient", "MonitorClient\MonitorClient.csproj", "{A806A205-5648-495C-AA41-A26991328018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorMcpServer", "MonitorMcpServer\MonitorMcpServer.csproj", "{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorMcpClient", "MonitorMcpClient\MonitorMcpClient.csproj", "{5B18D061-4EE3-467E-966B-445F30B00ADD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +30,13 @@ Global
 		{A806A205-5648-495C-AA41-A26991328018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A806A205-5648-495C-AA41-A26991328018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A806A205-5648-495C-AA41-A26991328018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B18D061-4EE3-467E-966B-445F30B00ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B18D061-4EE3-467E-966B-445F30B00ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B18D061-4EE3-467E-966B-445F30B00ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B18D061-4EE3-467E-966B-445F30B00ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
