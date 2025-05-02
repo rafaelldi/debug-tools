@@ -21,3 +21,10 @@ GRPC localhost:5197/monitor.CounterService/GetCounterStream
 {
   "process_id": {{process-id}}
 }
+
+### Get dotnet process thread dump
+GRPC localhost:5197/monitor.ThreadDumpService/GetThreadDump
+
+{
+  "process_id": {{process-id}}
+}

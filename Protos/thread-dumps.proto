@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "MonitorAgent";
+
+package monitor;
+
+service ThreadDumpService {
+  //Get thread dump of the requested dotnet process
+  rpc GetThreadDump (ThreadDumpRequest) returns (ThreadDumpResponse);
+}
+
+message ThreadDumpRequest {
+  int32 process_id = 1;
+}
+
+message ThreadDumpResponse {
+  string content = 1;
+}
