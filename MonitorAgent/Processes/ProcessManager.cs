@@ -4,11 +4,11 @@ using Microsoft.Diagnostics.NETCore.Client;
 
 namespace MonitorAgent.Processes;
 
-internal sealed class ProcessManager
+internal static class ProcessManager
 {
     private const string MonitorAgentProcessName = "MonitorAgent";
 
-    internal List<ProcessInfo> GetProcessList()
+    internal static List<ProcessInfo> GetProcessList()
     {
         var processIds = DiagnosticsClient.GetPublishedProcesses().ToList();
         var result = new List<ProcessInfo>(processIds.Count);
@@ -27,7 +27,7 @@ internal sealed class ProcessManager
         return result;
     }
 
-    internal ProcessDetails? GetProcessDetails(int pid)
+    internal static ProcessDetails? GetProcessDetails(int pid)
     {
         try
         {
@@ -53,7 +53,7 @@ internal sealed class ProcessManager
         }
     }
 
-    internal List<ProcessEnvironment> GetProcessEnvironment(int pid)
+    internal static List<ProcessEnvironment> GetProcessEnvironment(int pid)
     {
         try
         {

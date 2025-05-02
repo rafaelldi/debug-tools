@@ -6,9 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 
-builder.Services.AddScoped<ProcessManager>();
-builder.Services.AddScoped<ThreadDumpManager>();
-
 var app = builder.Build();
 
 app.MapGrpcService<ProcessService>();

@@ -8,11 +8,11 @@ using Microsoft.Diagnostics.Tracing.Stacks;
 
 namespace MonitorAgent.ThreadDumps;
 
-internal sealed class ThreadDumpManager
+internal static class ThreadDumpManager
 {
     private const string ThreadFrameName = "Thread (";
 
-    internal async Task<string> GetThreadDump(int pid, CancellationToken ct)
+    internal static async Task<string> GetThreadDump(int pid, CancellationToken ct)
     {
         var dumpFilename = $"{Path.GetRandomFileName()}.nettrace";
         var dumpFilePath = Path.Combine(Path.GetTempPath(), dumpFilename);
@@ -82,7 +82,8 @@ internal sealed class ThreadDumpManager
         return stackTraces;
     }
 
-    private static string SerializeStackTraces(Dictionary<int, List<StackSourceSample>> samplesByThread,
+    private static string SerializeStackTraces(
+        Dictionary<int, List<StackSourceSample>> samplesByThread,
         MutableTraceEventStackSource stackSource)
     {
         var sb = new StringBuilder();
