@@ -37,7 +37,7 @@ var client = new ChatClientBuilder(ollamaChatClient)
     .UseFunctionInvocation()
     .Build();
 
-var userMessage = "Get the process id of the `Rider.Backend` process.";
+var userMessage = "Analyze the `65113` - `MonitorSamples` process problems.";
 
 var messages = new List<ChatMessage>
 {

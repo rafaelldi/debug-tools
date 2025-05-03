@@ -9,6 +9,7 @@
     <ItemGroup>
         <Protobuf Include="../Protos/processes.proto" GrpcServices="Client"/>
         <Protobuf Include="../Protos/counters.proto" GrpcServices="Client"/>
+        <Protobuf Include="../Protos/thread-dumps.proto" GrpcServices="Client"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -14,7 +14,8 @@ internal sealed class ProcessTool
         ILoggerFactory loggerFactory,
         CancellationToken cancellationToken)
     {
-        var response = await client.GetProcessListAsync(new ProcessListRequest(), cancellationToken: cancellationToken);
+        var request = new ProcessListRequest();
+        var response = await client.GetProcessListAsync(request, cancellationToken: cancellationToken);
         var sb = new StringBuilder();
         foreach (var process in response.Processes)
         {
