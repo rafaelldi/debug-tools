@@ -3,64 +3,57 @@ using System.Threading.Channels;
 using JetBrains.Lifetimes;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing;
+using MonitorAgent.SessionConfigurations;
 using static JetBrains.Lifetimes.Lifetime;
 
 namespace MonitorAgent.Counters;
 
-internal sealed class CounterSessionHandler
+internal sealed class CounterSessionHandler(
+    EventCountersSessionConfiguration configuration,
+    ChannelWriter<CounterValue> writer)
 {
     private const string EventName = "EventCounters";
 
-    private readonly CounterSessionConfiguration _configuration;
-    private readonly ChannelWriter<CounterValue> _writer;
-
-    // ReSharper disable once ConvertToPrimaryConstructor
-    public CounterSessionHandler(CounterSessionConfiguration configuration, ChannelWriter<CounterValue> writer)
+    internal async Task RunSession(CancellationToken token)
     {
-        _configuration = configuration;
-        _writer = writer;
-    }
+        using var lifetimeDefinition = new LifetimeDefinition();
 
-    internal async Task RunSession()
-    {
-        var lifetime = AsyncLocal.Value;
-
-        lifetime.OnTermination(() => _writer.Complete());
-
-        var client = new DiagnosticsClient(_configuration.ProcessId);
+        var client = new DiagnosticsClient(configuration.ProcessId);
 
         var session = await client.StartEventPipeSessionAsync(
-            _configuration.Provider,
-            _configuration.RequestRundown,
-            _configuration.CircularBufferMb,
-            lifetime
+            configuration.Provider,
+            configuration.RequestRundown,
+            configuration.CircularBufferMb,
+            token
         );
-        lifetime.AddDispose(session);
+        lifetimeDefinition.Lifetime.AddDispose(session);
 
         var source = new EventPipeEventSource(session.EventStream);
-        lifetime.AddDispose(source);
+        lifetimeDefinition.Lifetime.AddDispose(source);
 
-        lifetime.Bracket(
+        lifetimeDefinition.Lifetime.Bracket(
             () => source.Dynamic.All += HandleEvent,
             () => source.Dynamic.All -= HandleEvent
         );
 
-        var processingTask = lifetime.StartAttached(
-            TaskScheduler.Default,
-            () => source.Process()
-        );
+        // var processingTask = lifetime.StartAttached(
+        //     TaskScheduler.Default,
+        //     () => source.Process()
+        // );
+        //
+        // var stoppingTask = lifetime.StartAttachedAsync(
+        //     TaskScheduler.Default,
+        //     async () => await WaitToCancellationAndStopSession(session)
+        // );
 
-        var stoppingTask = lifetime.StartAttachedAsync(
-            TaskScheduler.Default,
-            async () => await WaitToCancellationAndStopSession(session)
-        );
+        // await Task.WhenAll(processingTask, stoppingTask);
 
-        await Task.WhenAll(processingTask, stoppingTask);
+        writer.Complete();
     }
 
     private void HandleEvent(TraceEvent evt)
     {
-        if (evt.ProcessID != _configuration.ProcessId) return;
+        if (evt.ProcessID != configuration.ProcessId) return;
 
         if (evt.EventName != EventName) return;
 
@@ -74,11 +67,11 @@ internal sealed class CounterSessionHandler
             evt.ProviderName,
             name,
             evt.TimeStamp,
-            _configuration.RefreshInterval,
+            configuration.RefreshInterval,
             payloadFields
         );
 
-        _writer.TryWrite(counter);
+        writer.TryWrite(counter);
     }
 
     private static CounterValue MapCounterEvent(

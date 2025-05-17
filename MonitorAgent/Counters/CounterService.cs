@@ -1,5 +1,6 @@
 using System.Threading.Channels;
 using Grpc.Core;
+using MonitorAgent.SessionConfigurations;
 
 namespace MonitorAgent.Counters;
 
@@ -10,19 +11,18 @@ internal sealed class CounterService : MonitorAgent.CounterService.CounterServic
     {
         try
         {
-            var lifetimeDefinition = context.CancellationToken.ToLifetimeDefinition();
             var channel = Channel.CreateUnbounded<CounterValue>(new UnboundedChannelOptions
             {
                 SingleReader = true,
                 SingleWriter = true,
             });
 
-            var sessionConfiguration = new CounterSessionConfiguration(request.ProcessId);
+            var sessionConfiguration = new EventCountersSessionConfiguration(request.ProcessId);
             var handler = new CounterSessionHandler(sessionConfiguration, channel.Writer);
-            lifetimeDefinition.Lifetime.StartAttachedAsync(
-                TaskScheduler.Default,
-                async () => await handler.RunSession()
-            );
+            // lifetimeDefinition.Lifetime.StartAttachedAsync(
+            //     TaskScheduler.Default,
+            //     async () => await handler.RunSession(context.CancellationToken)
+            // );
 
             await foreach (var counterValue in channel.Reader.ReadAllAsync(context.CancellationToken))
             {
