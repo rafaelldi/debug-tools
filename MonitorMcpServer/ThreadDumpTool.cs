@@ -21,7 +21,7 @@ internal sealed class ThreadDumpTool
         {
             ProcessId = pid
         };
-        var response = await client.GetThreadDumpAsync(request, cancellationToken: cancellationToken);
+        var response = await client.CollectThreadDumpAsync(request, cancellationToken: cancellationToken);
         var dump = response.Content;
 
         loggerFactory

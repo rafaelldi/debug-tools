@@ -5,6 +5,7 @@ using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.Stacks;
+using static MonitorAgent.Common.ProviderNames;
 
 namespace MonitorAgent.ThreadDumps;
 
@@ -12,7 +13,7 @@ internal static class ThreadDumpManager
 {
     private const string ThreadFrameName = "Thread (";
 
-    internal static async Task<string> GetThreadDump(int pid, CancellationToken ct)
+    internal static async Task<string> CollectThreadDump(int pid, CancellationToken ct)
     {
         var dumpFilename = $"{Path.GetRandomFileName()}.nettrace";
         var dumpFilePath = Path.Combine(Path.GetTempPath(), dumpFilename);
@@ -20,7 +21,7 @@ internal static class ThreadDumpManager
         var client = new DiagnosticsClient(pid);
         var providers = new List<EventPipeProvider>
         {
-            new("Microsoft-DotNETCore-SampleProfiler", EventLevel.Informational)
+            new(MicrosoftDotNetCoreSampleProfiler, EventLevel.Informational)
         };
 
         using (var session = await client.StartEventPipeSessionAsync(providers, requestRundown: true, token: ct))
