@@ -10,6 +10,8 @@
         <Protobuf Include="../Protos/processes.proto"/>
         <Protobuf Include="../Protos/counters.proto"/>
         <Protobuf Include="../Protos/thread-dumps.proto"/>
+        <Protobuf Include="../Protos/gc.proto"/>
+        <Protobuf Include="../Protos/memory-dumps.proto"/>
     </ItemGroup>
 
     <ItemGroup>
