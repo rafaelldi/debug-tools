@@ -8,10 +8,10 @@ internal sealed class ThreadDumpService : MonitorAgent.ThreadDumpService.ThreadD
         ServerCallContext context)
     {
         var dump = await ThreadDumpManager.CollectThreadDump(request.ProcessId, context.CancellationToken);
-        var response = new ThreadDumpResponse
+
+        return new ThreadDumpResponse
         {
             Content = dump
         };
-        return response;
     }
 }

@@ -9,10 +9,10 @@ internal sealed class MemoryDumpService : MonitorAgent.MemoryDumpService.MemoryD
     {
         var dumpId = await MemoryDumpManager.CollectThreadDump(request.ProcessId, request.DumpType,
             context.CancellationToken);
-        var response = new MemoryDumpResponse
+
+        return new MemoryDumpResponse
         {
             MemoryDumpId = dumpId
         };
-        return response;
     }
 }
