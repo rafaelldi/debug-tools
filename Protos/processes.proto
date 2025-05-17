@@ -5,11 +5,11 @@ option csharp_namespace = "MonitorAgent";
 package monitor;
 
 service ProcessService {
-  //Get list of the dotnet process from the host machine
+  // Get list of the dotnet process from the host machine
   rpc GetProcessList (ProcessListRequest) returns (ProcessListResponse);
-  //Get details of the requested dotnet process
+  // Get details of the requested dotnet process
   rpc GetProcessDetails (ProcessDetailsRequest) returns (ProcessDetailsResponse);
-  //Get environment variables of the requested dotnet process
+  // Get environment variables of the requested dotnet process
   rpc GetProcessEnvironment (ProcessEnvironmentRequest) returns (ProcessEnvironmentResponse);
 }
 

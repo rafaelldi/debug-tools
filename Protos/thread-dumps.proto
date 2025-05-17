@@ -5,8 +5,8 @@ option csharp_namespace = "MonitorAgent";
 package monitor;
 
 service ThreadDumpService {
-  //Get thread dump of the requested dotnet process
-  rpc GetThreadDump (ThreadDumpRequest) returns (ThreadDumpResponse);
+  // Collect thread dump of the requested dotnet process
+  rpc CollectThreadDump (ThreadDumpRequest) returns (ThreadDumpResponse);
 }
 
 message ThreadDumpRequest {

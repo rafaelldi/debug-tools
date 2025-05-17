@@ -19,6 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorMcpClient", "Monitor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorSamples", "MonitorSamples\MonitorSamples.csproj", "{933E5877-1207-4580-9170-DE56DFB7599F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{007C4508-3335-4520-BF51-1733D46F7D6B}"
+	ProjectSection(SolutionItems) = preProject
+		Protos\counters.proto = Protos\counters.proto
+		Protos\processes.proto = Protos\processes.proto
+		Protos\thread-dumps.proto = Protos\thread-dumps.proto
+		Protos\gc.proto = Protos\gc.proto
+		Protos\memory-dumps.proto = Protos\memory-dumps.proto
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

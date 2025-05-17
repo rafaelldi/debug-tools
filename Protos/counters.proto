@@ -5,7 +5,7 @@ option csharp_namespace = "MonitorAgent";
 package monitor;
 
 service CounterService {
-  //Get stream of dotnet event counters for the process
+  // Get stream of dotnet event counters for the process
   rpc GetCounterStream (CounterStreamRequest) returns (stream CounterValue);
 }
 

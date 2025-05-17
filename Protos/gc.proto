@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "MonitorAgent";
+
+package monitor;
+
+service GCService {
+  // Trigger a full GC for the requested dotnet process
+  rpc TriggerGC (TriggerGCRequest) returns (TriggerGCResponse);
+}
+
+message TriggerGCRequest {
+  int32 process_id = 1;
+}
+
+message TriggerGCResponse {
+}

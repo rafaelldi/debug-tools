@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "MonitorAgent";
+
+package monitor;
+
+service MemoryDumpService {
+  // Collect memory dump of the requested dotnet process
+  rpc CollectMemoryDump (MemoryDumpRequest) returns (MemoryDumpResponse);
+}
+
+enum MemoryDumpType {
+  // Include just the information necessary to capture stack traces for all existing traces for all existing threads in a process. Limited GC heap memory and information.
+  NORMAL = 0;
+  // Includes the GC heaps and information necessary to capture stack traces for all existing threads in a process.
+  WITH_HEAP = 1;
+  // Include just the information necessary to capture stack traces for all existing traces for all existing threads in a process.
+  // Limited GC heap memory and information.
+  // Some content that is known to contain potentially sensitive information such as full module paths will be redacted.
+  // While this is intended to mitigate some cases of sensitive data exposure, 
+  // there is no guarantee this redaction feature on its own is sufficient to comply with any particular law or standard regarding data privacy.
+  TRIAGE = 2;
+  // Include all accessible memory in the process. 
+  // The raw memory data is included at the end, so that the initial structures can be mapped directly without the raw memory information. 
+  // This option can result in a very large dump file.
+  FULL = 3;
+}
+
+message MemoryDumpRequest {
+  int32 process_id = 1;
+  MemoryDumpType dump_type = 2;
+}
+
+message MemoryDumpResponse {
+  string memory_dump_id = 1;
+}
