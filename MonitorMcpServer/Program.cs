@@ -3,17 +3,19 @@ using MonitorMcpServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGrpcClient<ProcessService.ProcessServiceClient>(o =>
+builder.AddServiceDefaults();
+
+builder.Services.AddGrpcClient<ProcessService.ProcessServiceClient>(static it =>
 {
-    o.Address = new Uri("http://localhost:5197");
+    it.Address = new Uri("http://monitor-agent");
 });
-builder.Services.AddGrpcClient<CounterService.CounterServiceClient>(o =>
+builder.Services.AddGrpcClient<CounterService.CounterServiceClient>(static it =>
 {
-    o.Address = new Uri("http://localhost:5197");
+    it.Address = new Uri("http://monitor-agent");
 });
-builder.Services.AddGrpcClient<ThreadDumpService.ThreadDumpServiceClient>(o =>
+builder.Services.AddGrpcClient<ThreadDumpService.ThreadDumpServiceClient>(static it =>
 {
-    o.Address = new Uri("http://localhost:5197");
+    it.Address = new Uri("http://monitor-agent");
 });
 
 builder.Services

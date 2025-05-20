@@ -22,4 +22,8 @@
         <PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.1.0-preview.11"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\MonitorServiceDefaults\MonitorServiceDefaults.csproj"/>
+    </ItemGroup>
+
 </Project>
