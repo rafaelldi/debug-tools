@@ -5,8 +5,7 @@ namespace Monitor.Processes;
 
 internal sealed class ProcessService : MonitorAgent.ProcessService.ProcessServiceBase
 {
-    public override Task<ProcessListResponse> GetProcessList(
-        ProcessListRequest request,
+    public override Task<ProcessListResponse> GetProcessList(ProcessListRequest request,
         ServerCallContext context)
     {
         var processes = ProcessManager.GetProcessList();
@@ -15,8 +14,7 @@ internal sealed class ProcessService : MonitorAgent.ProcessService.ProcessServic
         return Task.FromResult(response);
     }
 
-    public override Task<ProcessDetailsResponse> GetProcessDetails(
-        ProcessDetailsRequest request,
+    public override Task<ProcessDetailsResponse> GetProcessDetails(ProcessDetailsRequest request,
         ServerCallContext context)
     {
         var processDetails = ProcessManager.GetProcessDetails(request.ProcessId);
@@ -27,8 +25,7 @@ internal sealed class ProcessService : MonitorAgent.ProcessService.ProcessServic
         return Task.FromResult(response);
     }
 
-    public override Task<ProcessEnvironmentResponse> GetProcessEnvironment(
-        ProcessEnvironmentRequest request,
+    public override Task<ProcessEnvironmentResponse> GetProcessEnvironment(ProcessEnvironmentRequest request,
         ServerCallContext context)
     {
         var processEnvironment = ProcessManager.GetProcessEnvironment(request.ProcessId);

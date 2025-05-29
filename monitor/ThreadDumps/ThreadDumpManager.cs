@@ -83,8 +83,7 @@ internal static class ThreadDumpManager
         return stackTraces;
     }
 
-    private static string SerializeStackTraces(
-        Dictionary<int, List<StackSourceSample>> samplesByThread,
+    private static string SerializeStackTraces(Dictionary<int, List<StackSourceSample>> samplesByThread,
         MutableTraceEventStackSource stackSource)
     {
         var sb = new StringBuilder();

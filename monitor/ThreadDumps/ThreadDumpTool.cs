@@ -11,11 +11,11 @@ internal sealed class ThreadDumpTool
         ILoggerFactory loggerFactory,
         [Description("The process id to capture a thread dump. It should be an integer number.")]
         string processId,
-        CancellationToken token)
+        CancellationToken ct)
     {
         if (!int.TryParse(processId, out var pid)) return "";
 
-        var dump = await ThreadDumpManager.CollectThreadDump(pid, token);
+        var dump = await ThreadDumpManager.CollectThreadDump(pid, ct);
         loggerFactory
             .CreateLogger("Monitor.ThreadDumps.ThreadDumpTool")
             .LogDebug("Thread dump captured for process {processId}", processId);
