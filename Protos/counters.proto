@@ -11,6 +11,7 @@ service CounterService {
 
 message CounterStreamRequest {
   int32 process_id = 1;
+  int32 duration_in_seconds = 2;
 }
 
 enum CounterType {

@@ -15,7 +15,7 @@ internal sealed class CounterSessionHandler(
 {
     private const string EventName = "EventCounters";
 
-    internal async Task RunSession(CancellationToken token)
+    internal async Task RunSession(TimeSpan duration, CancellationToken token)
     {
         using var lifetimeDefinition = new LifetimeDefinition();
 
