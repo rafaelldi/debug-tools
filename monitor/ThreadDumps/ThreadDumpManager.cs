@@ -5,7 +5,7 @@ using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.Stacks;
-using static MonitorAgent.Common.ProviderNames;
+using static Monitor.Common.ProviderNames;
 
 namespace Monitor.ThreadDumps;
 

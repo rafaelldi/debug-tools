@@ -1,6 +1,7 @@
 using Grpc.Core;
+using MonitorAgent;
 
-namespace MonitorAgent.GC;
+namespace Monitor.GC;
 
 internal sealed class GCService : MonitorAgent.GCService.GCServiceBase
 {

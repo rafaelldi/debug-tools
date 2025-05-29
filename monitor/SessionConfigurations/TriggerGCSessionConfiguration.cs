@@ -1,9 +1,9 @@
 using System.Diagnostics.Tracing;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing.Parsers;
-using MonitorAgent.Common;
+using Monitor.Common;
 
-namespace MonitorAgent.SessionConfigurations;
+namespace Monitor.SessionConfigurations;
 
 internal sealed class TriggerGCSessionConfiguration(int processId) : AbstractSessionConfiguration(processId)
 {

@@ -1,8 +1,8 @@
+using Monitor.Counters;
+using Monitor.GC;
+using Monitor.MemoryDumps;
 using Monitor.Processes;
 using Monitor.ThreadDumps;
-using MonitorAgent.Counters;
-using MonitorAgent.GC;
-using MonitorAgent.MemoryDumps;
 
 var builder = WebApplication.CreateBuilder(args);
 

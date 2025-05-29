@@ -1,8 +1,8 @@
 using System.Diagnostics.Tracing;
 using Microsoft.Diagnostics.NETCore.Client;
-using MonitorAgent.Common;
+using Monitor.Common;
 
-namespace MonitorAgent.SessionConfigurations;
+namespace Monitor.SessionConfigurations;
 
 internal sealed class EventCountersSessionConfiguration(int processId) : AbstractSessionConfiguration(processId)
 {

@@ -1,6 +1,7 @@
 using Grpc.Core;
+using MonitorAgent;
 
-namespace MonitorAgent.MemoryDumps;
+namespace Monitor.MemoryDumps;
 
 internal sealed class MemoryDumpService : MonitorAgent.MemoryDumpService.MemoryDumpServiceBase
 {

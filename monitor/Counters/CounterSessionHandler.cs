@@ -3,10 +3,11 @@ using System.Threading.Channels;
 using JetBrains.Lifetimes;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing;
-using MonitorAgent.SessionConfigurations;
+using Monitor.SessionConfigurations;
+using MonitorAgent;
 using static JetBrains.Lifetimes.Lifetime;
 
-namespace MonitorAgent.Counters;
+namespace Monitor.Counters;
 
 internal sealed class CounterSessionHandler(
     EventCountersSessionConfiguration configuration,

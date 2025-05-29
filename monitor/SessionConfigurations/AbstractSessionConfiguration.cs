@@ -1,6 +1,6 @@
 using Microsoft.Diagnostics.NETCore.Client;
 
-namespace MonitorAgent.SessionConfigurations;
+namespace Monitor.SessionConfigurations;
 
 internal abstract class AbstractSessionConfiguration(int processId)
 {

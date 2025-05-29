@@ -1,4 +1,4 @@
-namespace MonitorAgent.Common;
+namespace Monitor.Common;
 
 internal static class ProviderNames
 {

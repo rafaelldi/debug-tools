@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Diagnostics.NETCore.Client;
 
-namespace MonitorAgent;
+namespace Monitor;
 
 internal static class DiagnosticsClientExtensions
 {

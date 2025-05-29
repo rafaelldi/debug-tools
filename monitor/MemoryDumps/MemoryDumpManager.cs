@@ -1,6 +1,7 @@
 using Microsoft.Diagnostics.NETCore.Client;
+using MonitorAgent;
 
-namespace MonitorAgent.MemoryDumps;
+namespace Monitor.MemoryDumps;
 
 internal static class MemoryDumpManager
 {

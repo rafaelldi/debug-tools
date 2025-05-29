@@ -1,8 +1,9 @@
 using System.Threading.Channels;
 using Grpc.Core;
-using MonitorAgent.SessionConfigurations;
+using Monitor.SessionConfigurations;
+using MonitorAgent;
 
-namespace MonitorAgent.Counters;
+namespace Monitor.Counters;
 
 internal sealed class CounterService : MonitorAgent.CounterService.CounterServiceBase
 {

@@ -2,9 +2,9 @@ using System.Diagnostics.Tracing;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers;
-using static MonitorAgent.Common.ProviderNames;
+using static Monitor.Common.ProviderNames;
 
-namespace MonitorAgent.GC;
+namespace Monitor.GC;
 
 internal static class GCManager
 {
