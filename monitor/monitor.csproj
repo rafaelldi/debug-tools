@@ -4,18 +4,23 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>MonitorAgent</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="../Protos/processes.proto"/>
-        <Protobuf Include="../Protos/counters.proto"/>
-        <Protobuf Include="../Protos/thread-dumps.proto"/>
-        <Protobuf Include="../Protos/gc.proto"/>
-        <Protobuf Include="../Protos/memory-dumps.proto"/>
+        <Protobuf Include="../protos/processes.proto"/>
+        <Protobuf Include="../protos/counters.proto"/>
+        <Protobuf Include="../protos/thread-dumps.proto"/>
+        <Protobuf Include="../protos/gc.proto"/>
+        <Protobuf Include="../protos/memory-dumps.proto"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.71.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.72.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="JetBrains.Lifetimes" Version="2025.1.1"/>
         <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.621003"/>
         <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.21"/>

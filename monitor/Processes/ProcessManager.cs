@@ -6,7 +6,7 @@ namespace MonitorAgent.Processes;
 
 internal static class ProcessManager
 {
-    private const string MonitorAgentProcessName = "MonitorAgent";
+    private const string MonitorAgentProcessName = "monitor";
 
     internal static List<ProcessInfo> GetProcessList()
     {

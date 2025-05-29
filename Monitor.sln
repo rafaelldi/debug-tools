@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorAgent", "MonitorAgent\MonitorAgent.csproj", "{80FF214C-E08C-4BD1-AAAE-A5C3EB2C2373}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor", "monitor\monitor.csproj", "{80FF214C-E08C-4BD1-AAAE-A5C3EB2C2373}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{085B4FBC-B903-4D28-92D6-9FB5E0211598}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,13 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		samples.http = samples.http
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorClient", "MonitorClient\MonitorClient.csproj", "{A806A205-5648-495C-AA41-A26991328018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor-console-client", "monitor-console-client\monitor-console-client.csproj", "{A806A205-5648-495C-AA41-A26991328018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorMcpServer", "MonitorMcpServer\MonitorMcpServer.csproj", "{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor-mcp-server", "monitor-mcp-server\monitor-mcp-server.csproj", "{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorSamples", "MonitorSamples\MonitorSamples.csproj", "{933E5877-1207-4580-9170-DE56DFB7599F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor-samples", "monitor-samples\monitor-samples.csproj", "{933E5877-1207-4580-9170-DE56DFB7599F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{007C4508-3335-4520-BF51-1733D46F7D6B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "protos", "protos", "{007C4508-3335-4520-BF51-1733D46F7D6B}"
 	ProjectSection(SolutionItems) = preProject
 		Protos\counters.proto = Protos\counters.proto
 		Protos\processes.proto = Protos\processes.proto

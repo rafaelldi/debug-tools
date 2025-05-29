@@ -4,16 +4,17 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>MonitorMcpServer</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="../Protos/processes.proto" GrpcServices="Client"/>
-        <Protobuf Include="../Protos/counters.proto" GrpcServices="Client"/>
-        <Protobuf Include="../Protos/thread-dumps.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/processes.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/counters.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/thread-dumps.proto" GrpcServices="Client"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.31.0"/>
+        <PackageReference Include="Google.Protobuf" Version="3.31.1" />
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.71.0"/>
         <PackageReference Include="Grpc.Tools" Version="2.72.0">
             <PrivateAssets>all</PrivateAssets>
