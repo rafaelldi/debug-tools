@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using System.Globalization;
 using Microsoft.Diagnostics.NETCore.Client;
+using MonitorAgent;
 
-namespace MonitorAgent.Processes;
+namespace Monitor.Processes;
 
 internal static class ProcessManager
 {

@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor-console-client", "monitor-console-client\monitor-console-client.csproj", "{A806A205-5648-495C-AA41-A26991328018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor-mcp-server", "monitor-mcp-server\monitor-mcp-server.csproj", "{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitor-samples", "monitor-samples\monitor-samples.csproj", "{933E5877-1207-4580-9170-DE56DFB7599F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "protos", "protos", "{007C4508-3335-4520-BF51-1733D46F7D6B}"
@@ -39,10 +37,6 @@ Global
 		{A806A205-5648-495C-AA41-A26991328018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A806A205-5648-495C-AA41-A26991328018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A806A205-5648-495C-AA41-A26991328018}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4EFC3A7-08D0-4E14-A498-37C1FE3DFEE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{933E5877-1207-4580-9170-DE56DFB7599F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{933E5877-1207-4580-9170-DE56DFB7599F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{933E5877-1207-4580-9170-DE56DFB7599F}.Release|Any CPU.ActiveCfg = Release|Any CPU

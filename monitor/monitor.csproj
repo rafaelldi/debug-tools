@@ -4,7 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>MonitorAgent</RootNamespace>
+        <RootNamespace>Monitor</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,9 +21,11 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.1.0-eap1" />
         <PackageReference Include="JetBrains.Lifetimes" Version="2025.1.1"/>
         <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.621003"/>
         <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.21"/>
+        <PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.2.0-preview.1"/>
     </ItemGroup>
 
 </Project>

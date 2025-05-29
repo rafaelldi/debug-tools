@@ -7,7 +7,7 @@ using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.Stacks;
 using static MonitorAgent.Common.ProviderNames;
 
-namespace MonitorAgent.ThreadDumps;
+namespace Monitor.ThreadDumps;
 
 internal static class ThreadDumpManager
 {

@@ -1,6 +1,7 @@
 using Grpc.Core;
+using MonitorAgent;
 
-namespace MonitorAgent.Processes;
+namespace Monitor.Processes;
 
 internal sealed class ProcessService : MonitorAgent.ProcessService.ProcessServiceBase
 {
