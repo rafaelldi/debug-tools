@@ -1,17 +1,24 @@
+import ai.koog.agents.core.tools.ToolRegistry
+import ai.koog.agents.core.tools.reflect.asTools
 import ai.koog.agents.ext.agent.simpleSingleRunAgent
-import ai.koog.agents.mcp.McpToolRegistryProvider
 import ai.koog.prompt.executor.llms.all.simpleOllamaAIExecutor
 import ai.koog.prompt.llm.OllamaModels
 
 suspend fun main() {
-    val toolRegistry = McpToolRegistryProvider.fromTransport(
-        transport = McpToolRegistryProvider.defaultSseTransport("http://localhost:5197")
-    )
+    val toolRegistry = ToolRegistry {
+        tools(ProcessTools().asTools())
+    }
+
+    val executor = simpleOllamaAIExecutor("http://localhost:11434")
 
     val agent = simpleSingleRunAgent(
-        simpleOllamaAIExecutor("http://localhost:11434"),
-        " You are an assistant helping diagnose different problems with .NET applications.",
+        executor,
+        "You are a senior performance engineer helping diagnose and fix different performance problems with .NET applications.",
         OllamaModels.Meta.LLAMA_3_2,
         toolRegistry = toolRegistry
     )
+
+    val result = agent.runAndGetResult("Hello! Could you find a process id of `monitor-samples` process?")
+
+    println(result)
 }

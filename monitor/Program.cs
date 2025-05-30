@@ -18,10 +18,11 @@ builder.Services
 var app = builder.Build();
 
 app.MapGrpcService<ProcessService>();
+app.MapProcessEndpoints();
 app.MapGrpcService<CounterService>();
 app.MapGrpcService<ThreadDumpService>();
 app.MapGrpcService<GCService>();
 app.MapGrpcService<MemoryDumpService>();
-app.MapMcp();
+app.MapMcp("mcp");
 
 app.Run();
