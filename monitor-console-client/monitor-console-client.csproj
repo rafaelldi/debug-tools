@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="../protos/processes.proto" GrpcServices="Client"/>
-        <Protobuf Include="../protos/counters.proto" GrpcServices="Client"/>
+        <Protobuf Include="../Protos/processes.proto" GrpcServices="Client"/>
+        <Protobuf Include="../Protos/counters.proto" GrpcServices="Client"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -1,24 +1,25 @@
-import ai.koog.agents.core.tools.ToolRegistry
-import ai.koog.agents.core.tools.reflect.asTools
 import ai.koog.agents.ext.agent.simpleSingleRunAgent
-import ai.koog.prompt.executor.llms.all.simpleOllamaAIExecutor
-import ai.koog.prompt.llm.OllamaModels
+import ai.koog.agents.mcp.McpToolRegistryProvider
+import ai.koog.prompt.executor.clients.google.GoogleModels
+import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
 
 suspend fun main() {
-    val toolRegistry = ToolRegistry {
-        tools(ProcessTools().asTools())
-    }
 
-    val executor = simpleOllamaAIExecutor("http://localhost:11434")
+    val toolRegistry = McpToolRegistryProvider.fromTransport(
+        McpToolRegistryProvider.defaultSseTransport("http://localhost:5143")
+    )
+
+    val apiKey = System.getenv("GOOGLE_AI_API_KEY") ?: ""
+    val executor = simpleGoogleAIExecutor(apiKey)
 
     val agent = simpleSingleRunAgent(
         executor,
         "You are a senior performance engineer helping diagnose and fix different performance problems with .NET applications.",
-        OllamaModels.Meta.LLAMA_3_2,
+        GoogleModels.Gemini2_0Flash,
         toolRegistry = toolRegistry
     )
 
-    val result = agent.runAndGetResult("Hello! Could you find a process id of `monitor-samples` process?")
+    val result = agent.runAndGetResult("Hello! Could you understand what is happening with `monitor-samples` (pid: 40360) process?")
 
     println(result)
 }
