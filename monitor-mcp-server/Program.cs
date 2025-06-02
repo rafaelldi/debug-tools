@@ -1,4 +1,5 @@
 using MonitorAgent;
+using MonitorMcpServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +12,9 @@ builder.Services.AddGrpcClient<ThreadDumpService.ThreadDumpServiceClient>(static
     it.Address = new Uri("http://localhost:5197");
 });
 
-builder.Services
-    .AddMcpServer()
-    .WithHttpTransport()
-    .WithToolsFromAssembly();
-
 var app = builder.Build();
 
-app.MapMcp();
+app.MapProcessEndpoint();
+app.MapThreadDumpEndpoint();
 
 app.Run();
