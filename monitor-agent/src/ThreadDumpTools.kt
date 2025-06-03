@@ -7,9 +7,10 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.Serializable
 
 @LLMDescription("Tools for working with process thread dumps")
-class ThreadDumpTools : ToolSet {
+internal class ThreadDumpTools : ToolSet {
     private val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             json()
@@ -21,5 +22,14 @@ class ThreadDumpTools : ToolSet {
     suspend fun getProcessDump(
         @LLMDescription("The process id for which capture the thread dump.")
         pid: Int
-    ): String = client.get("http://localhost:5143/processes/$pid/thread-dump").body()
+    ): ThreadDumpDto = client.get("http://localhost:5143/processes/$pid/thread-dump").body()
 }
+
+@Serializable
+internal data class ThreadDumpDto(val threads: List<ThreadDto>)
+
+@Serializable
+internal data class ThreadDto(val id: String, val frames: List<FrameDto>)
+
+@Serializable
+internal data class FrameDto(val name: String)

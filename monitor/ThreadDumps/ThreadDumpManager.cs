@@ -5,7 +5,9 @@ using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.Stacks;
+using MonitorAgent;
 using static Monitor.Common.ProviderNames;
+using Thread = MonitorAgent.Thread;
 
 namespace Monitor.ThreadDumps;
 
@@ -13,7 +15,7 @@ internal static class ThreadDumpManager
 {
     private const string ThreadFrameName = "Thread (";
 
-    internal static async Task<string> CollectThreadDump(int pid, CancellationToken ct)
+    internal static async Task<ThreadDump> CollectThreadDump(int pid, CancellationToken ct)
     {
         var dumpFilename = $"{Path.GetRandomFileName()}.nettrace";
         var dumpFilePath = Path.Combine(Path.GetTempPath(), dumpFilename);
@@ -36,12 +38,12 @@ internal static class ThreadDumpManager
         }
 
         var traceLogFilePath = TraceLog.CreateFromEventPipeDataFile(dumpFilePath);
-        var stackTraces = ParseSessionFile(traceLogFilePath);
+        var threadDump = ParseSessionFile(traceLogFilePath);
 
-        return stackTraces;
+        return threadDump;
     }
 
-    private static string ParseSessionFile(string traceLogFilePath)
+    private static ThreadDump ParseSessionFile(string traceLogFilePath)
     {
         using var symbolReader = new SymbolReader(TextWriter.Null);
         symbolReader.SymbolPath = SymbolPath.MicrosoftSymbolServerPath;
@@ -78,35 +80,42 @@ internal static class ThreadDumpManager
             }
         });
 
-        var stackTraces = SerializeStackTraces(samplesByThread, stackSource);
+        var stackTraces = BuildThreadDumpFromSamples(samplesByThread, stackSource);
 
         return stackTraces;
     }
 
-    private static string SerializeStackTraces(Dictionary<int, List<StackSourceSample>> samplesByThread,
+    private static ThreadDump BuildThreadDumpFromSamples(Dictionary<int, List<StackSourceSample>> samplesByThread,
         MutableTraceEventStackSource stackSource)
     {
-        var sb = new StringBuilder();
+        var threadDump = new ThreadDump();
 
         foreach (var threadSamples in samplesByThread)
         {
             var sample = threadSamples.Value.FirstOrDefault();
             if (sample is null) continue;
 
-            sb.AppendLine($"Thread (0x{threadSamples.Key:X}):");
+            var thread = new Thread
+            {
+                Id = $"Thread (0x{threadSamples.Key:X})"
+            };
+            threadDump.Treads.Add(thread);
 
             var stackIndex = sample.StackIndex;
             var frameName = stackSource.GetFrameName(stackSource.GetFrameIndex(stackIndex), false);
             while (!frameName.StartsWith(ThreadFrameName))
             {
-                sb.AppendLine(frameName != "UNMANAGED_CODE_TIME" ? $"    {frameName}" : "    [Native Frames]");
+                var frame = new Frame
+                {
+                    Name = frameName != "UNMANAGED_CODE_TIME" ? frameName : "[Native Frames]"
+                };
+                thread.Frames.Add(frame);
+
                 stackIndex = stackSource.GetCallerIndex(stackIndex);
                 frameName = stackSource.GetFrameName(stackSource.GetFrameIndex(stackIndex), false);
             }
-
-            sb.AppendLine();
         }
 
-        return sb.ToString();
+        return threadDump;
     }
 }

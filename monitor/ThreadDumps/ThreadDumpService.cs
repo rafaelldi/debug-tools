@@ -12,7 +12,7 @@ internal sealed class ThreadDumpService : MonitorAgent.ThreadDumpService.ThreadD
 
         return new ThreadDumpResponse
         {
-            Content = dump
+            Dump = dump
         };
     }
 }

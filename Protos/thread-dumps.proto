@@ -14,5 +14,18 @@ message ThreadDumpRequest {
 }
 
 message ThreadDumpResponse {
-  string content = 1;
+  ThreadDump dump = 1;
+}
+
+message ThreadDump {
+  repeated Thread treads = 1;
+}
+
+message Thread {
+  string id = 1;
+  repeated Frame frames = 2;
+}
+
+message Frame {
+  string name = 1;
 }
