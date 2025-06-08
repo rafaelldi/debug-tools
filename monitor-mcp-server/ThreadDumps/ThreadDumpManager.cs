@@ -19,8 +19,8 @@ internal sealed class ThreadDumpManager(ThreadDumpService.ThreadDumpServiceClien
     {
         var threads = threadDump.Treads.Select(thread =>
             new ThreadDto(
-                thread.Id,
-                thread.Frames.Select(it => new FrameDto(it.Name)).ToList()
+                thread.ThreadId,
+                thread.Frames.Select(it => it).ToList()
             )
         ).ToList();
 
@@ -30,6 +30,4 @@ internal sealed class ThreadDumpManager(ThreadDumpService.ThreadDumpServiceClien
 
 internal record ThreadDumpDto(List<ThreadDto> Threads);
 
-internal record ThreadDto(string Id, List<FrameDto> Frames);
-
-internal record FrameDto(string Name);
+internal record ThreadDto(string ThreadId, List<string> Frames);

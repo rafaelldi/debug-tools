@@ -7,6 +7,8 @@ package monitor;
 service ProcessService {
   // Get list of the dotnet process from the host machine
   rpc GetProcessList (ProcessListRequest) returns (ProcessListResponse);
+  // Get the dotnet process by name from the host machine
+  rpc GetProcessByName (ProcessByNameRequest) returns (ProcessByNameResponse);
   // Get details of the requested dotnet process
   rpc GetProcessDetails (ProcessDetailsRequest) returns (ProcessDetailsResponse);
   // Get environment variables of the requested dotnet process
@@ -18,6 +20,14 @@ message ProcessListRequest {
 
 message ProcessListResponse {
   repeated ProcessInfo processes = 1;
+}
+
+message ProcessByNameRequest {
+  string process_name = 1;
+}
+
+message ProcessByNameResponse {
+  optional ProcessInfo process = 1;
 }
 
 message ProcessInfo {

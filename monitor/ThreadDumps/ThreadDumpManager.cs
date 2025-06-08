@@ -1,5 +1,4 @@
 using System.Diagnostics.Tracing;
-using System.Text;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
@@ -97,7 +96,7 @@ internal static class ThreadDumpManager
 
             var thread = new Thread
             {
-                Id = $"Thread (0x{threadSamples.Key:X})"
+                ThreadId = $"Thread (0x{threadSamples.Key:X})"
             };
             threadDump.Treads.Add(thread);
 
@@ -105,10 +104,7 @@ internal static class ThreadDumpManager
             var frameName = stackSource.GetFrameName(stackSource.GetFrameIndex(stackIndex), false);
             while (!frameName.StartsWith(ThreadFrameName))
             {
-                var frame = new Frame
-                {
-                    Name = frameName != "UNMANAGED_CODE_TIME" ? frameName : "[Native Frames]"
-                };
+                var frame = frameName != "UNMANAGED_CODE_TIME" ? frameName : "[Native Frames]";
                 thread.Frames.Add(frame);
 
                 stackIndex = stackSource.GetCallerIndex(stackIndex);

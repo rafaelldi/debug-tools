@@ -1,23 +1,7 @@
-﻿using System.Diagnostics;
-using Grpc.Core;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using MonitorAgent;
 
-using var channel = GrpcChannel.ForAddress("http://localhost:5197");
-
-var client = new ProcessService.ProcessServiceClient(channel);
-
-var processes = await client.GetProcessListAsync(new ProcessListRequest());
-Console.WriteLine("Available processes:");
-foreach (var process in processes.Processes)
-{
-    Console.WriteLine($"{process.ProcessId} - {process.ProcessName}");
-}
-
-Console.WriteLine();
-
-Console.WriteLine("Enter process id to get counters:");
-var processId = Console.ReadLine();
+const string processName = "monitor-samples";
 
 using var cts = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>
@@ -27,19 +11,17 @@ Console.CancelKeyPress += (_, e) =>
     cts.Cancel();
 };
 
-var counterClient = new CounterService.CounterServiceClient(channel);
-Debug.Assert(processId != null, nameof(processId) + " != null");
-using var counterCall = counterClient.GetCounterStream(new CounterStreamRequest { ProcessId = int.Parse(processId) });
+using var channel = GrpcChannel.ForAddress("http://localhost:5197");
 
-try
-{
-    await foreach (var counter in counterCall.ResponseStream.ReadAllAsync(cts.Token))
-    {
-        Console.WriteLine(
-            $"{counter.Timestamp} - {counter.Name} - {counter.DisplayName} - {counter.ProviderName} - {counter.Value}");
-    }
-}
-catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
-{
-    Console.WriteLine("Operation canceled");
-}
+var client = new ProcessService.ProcessServiceClient(channel);
+var process = await client.GetProcessByNameAsync(new ProcessByNameRequest { ProcessName = processName },
+    cancellationToken: cts.Token);
+Console.WriteLine(process.ToString());
+
+if (process.Process is null) return;
+
+var threadDumpClient = new ThreadDumpService.ThreadDumpServiceClient(channel);
+var threadDump =
+    await threadDumpClient.CollectThreadDumpAsync(new ThreadDumpRequest { ProcessId = process.Process.ProcessId },
+        cancellationToken: cts.Token);
+Console.WriteLine(threadDump.ToString());

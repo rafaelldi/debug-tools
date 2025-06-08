@@ -14,6 +14,15 @@ internal sealed class ProcessService : MonitorAgent.ProcessService.ProcessServic
         return Task.FromResult(response);
     }
 
+    public override Task<ProcessByNameResponse> GetProcessByName(ProcessByNameRequest request,
+        ServerCallContext context)
+    {
+        var process = ProcessManager.GetProcessByName(request.ProcessName);
+        var response = new ProcessByNameResponse();
+        if (process != null) response.Process = process;
+        return Task.FromResult(response);
+    }
+
     public override Task<ProcessDetailsResponse> GetProcessDetails(ProcessDetailsRequest request,
         ServerCallContext context)
     {

@@ -28,6 +28,12 @@ internal static class ProcessManager
         return result;
     }
 
+    internal static ProcessInfo? GetProcessByName(string processName)
+    {
+        var processList = GetProcessList();
+        return processList.FirstOrDefault(it => it.ProcessName == processName);
+    }
+
     internal static ProcessDetails? GetProcessDetails(int pid)
     {
         try

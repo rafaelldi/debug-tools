@@ -22,10 +22,6 @@ message ThreadDump {
 }
 
 message Thread {
-  string id = 1;
-  repeated Frame frames = 2;
-}
-
-message Frame {
-  string name = 1;
+  string thread_id = 1;
+  repeated string frames = 2;
 }

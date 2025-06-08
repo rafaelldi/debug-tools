@@ -1,30 +1,41 @@
 ### Get dotnet process list
 GRPC localhost:5197/monitor.ProcessService/GetProcessList
 
+### Get `monitor-samples` process
+GRPC localhost:5197/monitor.ProcessService/GetProcessByName
+
+{
+  "process_name": "monitor-samples"
+}
+
+> {%
+    client.global.set("process_id", response.body.process.processId);
+%}
+
 ### Get dotnet process details
 GRPC localhost:5197/monitor.ProcessService/GetProcessDetails
 
 {
-  "process_id": {{process-id}}
+  "process_id": {{process_id}}
 }
 
 ### Get dotnet process environment variables
 GRPC localhost:5197/monitor.ProcessService/GetProcessEnvironment
 
 {
-  "process_id": {{process-id}}
+  "process_id": {{process_id}}
 }
 
 ### Get dotnet process counters
 GRPC localhost:5197/monitor.CounterService/GetCounterStream
 
 {
-  "process_id": {{process-id}}
+  "process_id": {{process_id}}
 }
 
 ### Get dotnet process thread dump
-GRPC localhost:5197/monitor.ThreadDumpService/GetThreadDump
+GRPC localhost:5197/monitor.ThreadDumpService/CollectThreadDump
 
 {
-  "process_id": {{process-id}}
+  "process_id": {{process_id}}
 }
