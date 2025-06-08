@@ -21,6 +21,7 @@
         <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="JetBrains.Lifetimes"/>
         <PackageReference Include="Microsoft.Diagnostics.NETCore.Client"/>
+        <PackageReference Include="Microsoft.Diagnostics.Runtime"/>
         <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent"/>
     </ItemGroup>
 

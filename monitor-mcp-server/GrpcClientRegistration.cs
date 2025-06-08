@@ -14,5 +14,9 @@ internal static class GrpcClientRegistration
         {
             it.Address = MonitorUri;
         });
+        builder.Services.AddGrpcClient<MemoryDumpService.MemoryDumpServiceClient>(static it =>
+        {
+            it.Address = MonitorUri;
+        });
     }
 }

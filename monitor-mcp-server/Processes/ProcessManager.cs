@@ -8,6 +8,7 @@ internal sealed class ProcessManager(ProcessService.ProcessServiceClient client)
     {
         var request = new ProcessListRequest();
         var response = await client.GetProcessListAsync(request, cancellationToken: token);
+
         return response.Processes
             .Select(it => new ProcessInfoDto(it.ProcessId, it.ProcessName))
             .ToList();

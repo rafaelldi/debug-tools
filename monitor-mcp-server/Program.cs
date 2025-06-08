@@ -1,4 +1,5 @@
 using MonitorMcpServer;
+using MonitorMcpServer.MemoryDumps;
 using MonitorMcpServer.Processes;
 using MonitorMcpServer.ThreadDumps;
 
@@ -13,11 +14,10 @@ builder.Services
 
 builder.Services.AddScoped<ProcessManager>();
 builder.Services.AddScoped<ThreadDumpManager>();
+builder.Services.AddScoped<MemoryDumpManager>();
 
 var app = builder.Build();
 
-app.MapProcessEndpoint();
-app.MapThreadDumpEndpoint();
-app.MapMcp("mcp");
+app.MapMcp();
 
 app.Run();

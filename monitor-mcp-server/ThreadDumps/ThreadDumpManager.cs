@@ -11,6 +11,7 @@ internal sealed class ThreadDumpManager(ThreadDumpService.ThreadDumpServiceClien
             ProcessId = pid
         };
         var response = await client.CollectThreadDumpAsync(request, cancellationToken: token);
+
         return Map(response.Dump);
     }
 

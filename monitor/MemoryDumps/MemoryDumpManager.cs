@@ -5,7 +5,7 @@ namespace Monitor.MemoryDumps;
 
 internal static class MemoryDumpManager
 {
-    internal static async Task<string> CollectThreadDump(int pid, MemoryDumpType dumpType, CancellationToken ct)
+    internal static async Task<string> CollectMemoryDump(int pid, MemoryDumpType dumpType, CancellationToken ct)
     {
         var id = Path.GetRandomFileName();
         var dumpFilename = $"{id}.dmp";

@@ -7,8 +7,8 @@ namespace MonitorMcpServer.ThreadDumps;
 internal sealed class ThreadDumpTool
 {
     [McpServerTool,
-     Description("Capture the process thread dump for the requested process.")]
-    internal static async Task<ThreadDumpDto?> GetThreadDump(
+     Description("Capture the thread dump for the requested process.")]
+    internal static async Task<ThreadDumpDto?> CollectThreadDump(
         ThreadDumpManager manager,
         [Description("The process id to capture a thread dump. It should be an integer number.")]
         string processId,

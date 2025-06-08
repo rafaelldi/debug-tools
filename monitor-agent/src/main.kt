@@ -5,6 +5,7 @@ import ai.koog.agents.core.dsl.builder.strategy
 import ai.koog.agents.core.dsl.extension.*
 import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.core.tools.reflect.asTools
+import ai.koog.agents.mcp.McpToolRegistryProvider
 import ai.koog.prompt.dsl.Prompt
 import ai.koog.prompt.executor.clients.google.GoogleModels
 import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
@@ -32,7 +33,7 @@ suspend fun main() {
                 """
                 You are a senior performance engineer helping diagnose and fix different performance problems with .NET applications.
                 
-                If process ID is not provided, use the `getProcessList` tool to obtain the list of processes and find the process ID from it.
+                If process ID is not provided, use the `GetProcessList` tool to obtain the list of processes and find the process ID from it.
                 """.trimIndent()
             )
         },
@@ -40,10 +41,9 @@ suspend fun main() {
         maxAgentIterations = 10
     )
 
-    val toolRegistry = ToolRegistry {
-        tools(ProcessTools().asTools())
-        tools(ThreadDumpTools().asTools())
-    }
+    val toolRegistry = McpToolRegistryProvider.fromTransport(
+        transport = McpToolRegistryProvider.defaultSseTransport("http://localhost:5143")
+    )
 
     val agent = AIAgent(
         promptExecutor = executor,

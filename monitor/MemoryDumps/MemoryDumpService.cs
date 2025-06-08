@@ -8,7 +8,7 @@ internal sealed class MemoryDumpService : MonitorAgent.MemoryDumpService.MemoryD
     public override async Task<MemoryDumpResponse> CollectMemoryDump(MemoryDumpRequest request,
         ServerCallContext context)
     {
-        var dumpId = await MemoryDumpManager.CollectThreadDump(request.ProcessId, request.DumpType,
+        var dumpId = await MemoryDumpManager.CollectMemoryDump(request.ProcessId, request.DumpType,
             context.CancellationToken);
 
         return new MemoryDumpResponse
