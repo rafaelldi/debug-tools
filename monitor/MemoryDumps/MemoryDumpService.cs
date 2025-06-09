@@ -23,4 +23,11 @@ internal sealed class MemoryDumpService : MonitorAgent.MemoryDumpService.MemoryD
         MemoryDumpManager.DeleteMemoryDump(request.MemoryDumpId);
         return Task.FromResult(new DeleteMemoryDumpResponse());
     }
+
+    public override Task<AnalyzeClrStackResponse> AnalyzeClrStack(AnalyzeClrStackRequest request,
+        ServerCallContext context)
+    {
+        MemoryDumpManager.GetClrStack(request.MemoryDumpId);
+        return Task.FromResult(new AnalyzeClrStackResponse());
+    }
 }

@@ -8,15 +8,13 @@ internal static class MemoryDumpManager
 {
     internal static async Task<string> CollectMemoryDump(int pid, MemoryDumpType dumpType, CancellationToken token)
     {
-        var id = Path.GetRandomFileName();
-        var dumpFilename = $"{id}.dmp";
-        var dumpFilePath = Path.Combine(Path.GetTempPath(), dumpFilename);
-
+        var memoryDumpId = Path.GetRandomFileName();
+        var dumpFilePath = GetDumpFilePath(memoryDumpId);
         var type = Map(dumpType);
         var client = new DiagnosticsClient(pid);
         await client.WriteDumpAsync(type, dumpFilePath, false, token);
 
-        return id;
+        return memoryDumpId;
     }
 
     private static DumpType Map(MemoryDumpType dumpType) => dumpType switch
@@ -30,23 +28,30 @@ internal static class MemoryDumpManager
 
     internal static void DeleteMemoryDump(string memoryDumpId)
     {
-        var dumpFilename = $"{memoryDumpId}.dmp";
-        var dumpFilePath = Path.Combine(Path.GetTempPath(), dumpFilename);
+        var dumpFilePath = GetDumpFilePath(memoryDumpId);
         if (File.Exists(dumpFilePath))
         {
             File.Delete(dumpFilePath);
         }
     }
 
-    internal static void GetClrStack(string id)
+    internal static void GetClrStack(string memoryDumpId)
     {
-        var dumpFilename = $"{id}.dmp";
-        var dumpFilePath = Path.Combine(Path.GetTempPath(), dumpFilename);
+        var dumpFilePath = GetDumpFilePath(memoryDumpId);
         var dataTarget = DataTarget.LoadDump(dumpFilePath, new CacheOptions());
         var clrInfo = dataTarget.ClrVersions[0];
         var runtime = clrInfo.CreateRuntime();
         var threads = runtime.Threads
             .Select(it => (it, it.EnumerateStackTrace()))
             .ToList();
+        foreach (var thread in threads)
+        {
+        }
+    }
+
+    private static string GetDumpFilePath(string memoryDumpId)
+    {
+        var dumpFilename = $"{memoryDumpId}.dmp";
+        return Path.Combine(Path.GetTempPath(), dumpFilename);
     }
 }

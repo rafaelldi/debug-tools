@@ -9,6 +9,8 @@ service MemoryDumpService {
   rpc CollectMemoryDump (MemoryDumpRequest) returns (MemoryDumpResponse);
   // Delete a collected memory dump
   rpc DeleteMemoryDump (DeleteMemoryDumpRequest) returns (DeleteMemoryDumpResponse);
+  // Analyze CLR stack from the collected memory dump
+  rpc AnalyzeClrStack (AnalyzeClrStackRequest) returns (AnalyzeClrStackResponse);
 }
 
 enum MemoryDumpType {
@@ -42,4 +44,11 @@ message DeleteMemoryDumpRequest {
 }
 
 message DeleteMemoryDumpResponse {
+}
+
+message AnalyzeClrStackRequest {
+  string memory_dump_id = 1;
+}
+
+message AnalyzeClrStackResponse {
 }
