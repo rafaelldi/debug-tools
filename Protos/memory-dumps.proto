@@ -7,6 +7,8 @@ package monitor;
 service MemoryDumpService {
   // Collect memory dump of the requested dotnet process
   rpc CollectMemoryDump (MemoryDumpRequest) returns (MemoryDumpResponse);
+  // Delete a collected memory dump
+  rpc DeleteMemoryDump (DeleteMemoryDumpRequest) returns (DeleteMemoryDumpResponse);
 }
 
 enum MemoryDumpType {
@@ -33,4 +35,11 @@ message MemoryDumpRequest {
 
 message MemoryDumpResponse {
   string memory_dump_id = 1;
+}
+
+message DeleteMemoryDumpRequest {
+  string memory_dump_id = 1;
+}
+
+message DeleteMemoryDumpResponse {
 }

@@ -1,4 +1,4 @@
-### Get dotnet process list
+### Get process list
 GRPC localhost:5197/monitor.ProcessService/GetProcessList
 
 ### Get `monitor-samples` process
@@ -12,30 +12,48 @@ GRPC localhost:5197/monitor.ProcessService/GetProcessByName
     client.global.set("process_id", response.body.process.processId);
 %}
 
-### Get dotnet process details
+### Get process details
 GRPC localhost:5197/monitor.ProcessService/GetProcessDetails
 
 {
   "process_id": {{process_id}}
 }
 
-### Get dotnet process environment variables
+### Get process environment variables
 GRPC localhost:5197/monitor.ProcessService/GetProcessEnvironment
 
 {
   "process_id": {{process_id}}
 }
 
-### Get dotnet process counters
+### Get process counters
 GRPC localhost:5197/monitor.CounterService/GetCounterStream
 
 {
   "process_id": {{process_id}}
 }
 
-### Get dotnet process thread dump
+### Collect process thread dump
 GRPC localhost:5197/monitor.ThreadDumpService/CollectThreadDump
 
 {
   "process_id": {{process_id}}
+}
+
+### Collect process memory dump
+GRPC localhost:5197/monitor.MemoryDumpService/CollectMemoryDump
+
+{
+  "process_id": {{process_id}}
+}
+
+> {%
+    client.global.set("memory_dump_id", response.body.memoryDumpId);
+%}
+
+### Delete process memory dump
+GRPC localhost:5197/monitor.MemoryDumpService/DeleteMemoryDump
+
+{
+  "memory_dump_id": {{memory_dump_id}}
 }
