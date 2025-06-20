@@ -51,4 +51,14 @@ message AnalyzeClrStackRequest {
 }
 
 message AnalyzeClrStackResponse {
+  ClrStack clr_stack = 1;
+}
+
+message ClrStack {
+  repeated ClrThread treads = 1;
+}
+
+message ClrThread {
+  int32 thread_id = 1;
+  repeated string frames = 2;
 }

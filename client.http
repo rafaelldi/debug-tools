@@ -57,3 +57,10 @@ GRPC localhost:5197/monitor.MemoryDumpService/DeleteMemoryDump
 {
   "memory_dump_id": {{memory_dump_id}}
 }
+
+### Analyze CLR stack
+GRPC localhost:5197/monitor.MemoryDumpService/AnalyzeClrStack
+
+{
+  "memory_dump_id": {{memory_dump_id}}
+}
