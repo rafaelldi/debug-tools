@@ -1,4 +1,0 @@
-product: jvm/app
-
-dependencies:
-  - ai.koog:koog-agents:0.2.1
