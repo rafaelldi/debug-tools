@@ -1,7 +1,7 @@
 ﻿using Grpc.Net.Client;
 using MonitorAgent;
 
-const string processName = "monitor-samples";
+const string processName = "DebugTools-samples";
 
 using var cts = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>

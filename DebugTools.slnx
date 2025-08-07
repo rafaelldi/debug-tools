@@ -13,7 +13,7 @@
         <File Path="Directory.Packages.props"/>
         <File Path="Directory.Build.props"/>
     </Folder>
-    <Project Path="monitor-console-client\monitor-console-client.csproj" Type="Classic C#"/>
-    <Project Path="monitor-samples\monitor-samples.csproj" Type="Classic C#"/>
-    <Project Path="monitor\monitor.csproj" Type="Classic C#"/>
+    <Project Path="ConsoleClient\ConsoleClient.csproj" Type="Classic C#"/>
+    <Project Path="DebugSamples\DebugSamples.csproj" Type="Classic C#"/>
+    <Project Path="DebugTools\DebugTools.csproj" Type="Classic C#"/>
 </Solution>

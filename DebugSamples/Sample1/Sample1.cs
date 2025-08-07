@@ -1,5 +1,6 @@
 ﻿// ReSharper disable InconsistentOrderOfLocks
 // ReSharper disable ChangeFieldTypeToSystemThreadingLock
+
 namespace MonitorSamples.Sample1;
 
 internal static class Sample1
