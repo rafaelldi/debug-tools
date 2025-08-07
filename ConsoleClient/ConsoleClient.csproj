@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="../Protos/processes.proto" GrpcServices="Client"/>
-        <Protobuf Include="../Protos/counters.proto" GrpcServices="Client"/>
-        <Protobuf Include="../Protos/thread-dumps.proto" GrpcServices="Client"/>
-        <Protobuf Include="../Protos/gc.proto" GrpcServices="Client"/>
-        <Protobuf Include="../Protos/memory-dumps.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/processes.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/counters.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/thread-dumps.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/gc.proto" GrpcServices="Client"/>
+        <Protobuf Include="../protos/memory-dumps.proto" GrpcServices="Client"/>
     </ItemGroup>
 
     <ItemGroup>

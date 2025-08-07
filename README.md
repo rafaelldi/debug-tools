@@ -1,8 +1,8 @@
-A solution for monitoring different diagnostic information about dotnet processes.
+A solution with tools to debug different problems in dotnet processes.
 
 It consists of several projects:
 
-- `monitor` - a gRPC-based agent for collecting various diagnostic information about dotnet processes using
-  `DiagnosticsClient`, the gRPC service is available at `http://localhost:5197`;
-- `monitor-console-client` - a console client to test agent endpoints;
-- `monitor-samples` - a sample project with different problems, they can be triggered via http api.
+- `DebugTools` - a project with multiple diagnostics tools aiming to help to debug various problems in a dotnet app. All
+  tools are available through grpc endpoints.
+- `ConsoleClient` - a console client to test grpc services;
+- `DebugSamples` - a project with different problems, they can be triggered via http api.
