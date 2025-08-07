@@ -1,4 +1,4 @@
 ### Request a deadlock endpoint
-GET http://localhost:5208/sample1
+GET http://localhost:5208/deadlock
 
 ###

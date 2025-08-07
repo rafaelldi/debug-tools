@@ -1,6 +1,4 @@
-﻿# Sample 1
-
-## Deadlock
+﻿# Deadlock
 
 This sample demonstrates a classic deadlock scenario in multithreaded applications.
 
@@ -12,7 +10,7 @@ A deadlock occurs when two or more threads are permanently blocked, each waiting
 ## Testing
 
 1. Run the application
-2. Navigate to `/sample1` endpoint
+2. Navigate to `/deadlock` endpoint
 3. The request will hang indefinitely
 
 ## Diagnosing Deadlocks

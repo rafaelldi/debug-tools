@@ -1,16 +1,16 @@
 ﻿// ReSharper disable InconsistentOrderOfLocks
 // ReSharper disable ChangeFieldTypeToSystemThreadingLock
 
-namespace MonitorSamples.Sample1;
+namespace MonitorSamples.Deadlock;
 
-internal static class Sample1
+internal static class Deadlock
 {
     private static readonly object ResourceA = new();
     private static readonly object ResourceB = new();
 
-    internal static void MapSample1Endpoints(this IEndpointRouteBuilder routes)
+    internal static void MapDeadlockEndpoints(this IEndpointRouteBuilder routes)
     {
-        routes.MapGet("/sample1", async (HttpContext context) =>
+        routes.MapGet("/deadlock", async (HttpContext context) =>
         {
             var backgroundTask = Task.Run(() =>
             {

@@ -1,8 +1,8 @@
-using MonitorSamples.Sample1;
+using MonitorSamples.Deadlock;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapSample1Endpoints();
+app.MapDeadlockEndpoints();
 
 app.Run();
