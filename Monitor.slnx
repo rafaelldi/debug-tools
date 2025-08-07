@@ -1,10 +1,10 @@
 ﻿<Solution>
-    <Folder Name="/protos/">
-        <File Path="Protos\counters.proto"/>
-        <File Path="Protos\processes.proto"/>
-        <File Path="Protos\thread-dumps.proto"/>
-        <File Path="Protos\gc.proto"/>
-        <File Path="Protos\memory-dumps.proto"/>
+    <Folder Name="/Protos/">
+        <File Path="protos\counters.proto"/>
+        <File Path="protos\processes.proto"/>
+        <File Path="protos\thread-dumps.proto"/>
+        <File Path="protos\gc.proto"/>
+        <File Path="protos\memory-dumps.proto"/>
     </Folder>
     <Folder Name="/Solution Items/">
         <File Path="README.md"/>
