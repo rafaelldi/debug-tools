@@ -15,39 +15,37 @@ internal sealed class CounterSessionHandler(
 {
     private const string EventName = "EventCounters";
 
-    internal async Task RunSession(TimeSpan duration, CancellationToken token)
+    internal async Task RunSession(Lifetime lifetime)
     {
-        using var lifetimeDefinition = new LifetimeDefinition();
-
         var client = new DiagnosticsClient(configuration.ProcessId);
 
         var session = await client.StartEventPipeSessionAsync(
             configuration.Provider,
             configuration.RequestRundown,
             configuration.CircularBufferMb,
-            token
+            lifetime
         );
-        lifetimeDefinition.Lifetime.AddDispose(session);
+        lifetime.AddDispose(session);
 
         var source = new EventPipeEventSource(session.EventStream);
-        lifetimeDefinition.Lifetime.AddDispose(source);
+        lifetime.AddDispose(source);
 
-        lifetimeDefinition.Lifetime.Bracket(
+        lifetime.Bracket(
             () => source.Dynamic.All += HandleEvent,
             () => source.Dynamic.All -= HandleEvent
         );
 
-        // var processingTask = lifetime.StartAttached(
-        //     TaskScheduler.Default,
-        //     () => source.Process()
-        // );
-        //
-        // var stoppingTask = lifetime.StartAttachedAsync(
-        //     TaskScheduler.Default,
-        //     async () => await WaitToCancellationAndStopSession(session)
-        // );
+        var processingTask = lifetime.StartAttached(
+            TaskScheduler.Default,
+            () => source.Process()
+        );
 
-        // await Task.WhenAll(processingTask, stoppingTask);
+        var stoppingTask = lifetime.StartAttachedAsync(
+            TaskScheduler.Default,
+            async () => await WaitToCancellationAndStopSession(session)
+        );
+
+        await Task.WhenAll(processingTask, stoppingTask);
 
         writer.Complete();
     }
