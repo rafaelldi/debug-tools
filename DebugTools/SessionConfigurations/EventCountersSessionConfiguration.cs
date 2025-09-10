@@ -4,19 +4,17 @@ using Monitor.Common;
 
 namespace Monitor.SessionConfigurations;
 
-internal sealed class EventCountersSessionConfiguration : AbstractSessionConfiguration
+internal sealed class EventCountersSessionConfiguration : SessionConfigurationWithInterval
 {
     private const string IntervalArgument = "EventCounterIntervalSec";
-    private const int DefaultInterval = 1;
 
     internal string ProviderName { get; }
-    internal int RefreshInterval { get; }
     internal override EventPipeProvider Provider { get; }
 
-    internal EventCountersSessionConfiguration(int processId, string? provider, int? refreshInterval) : base(processId)
+    internal EventCountersSessionConfiguration(int processId, string? provider, int? refreshInterval) :
+        base(processId, refreshInterval)
     {
         ProviderName = provider ?? ProviderNames.SystemRuntime;
-        RefreshInterval = refreshInterval > 0 ? refreshInterval.Value : DefaultInterval;
 
         Provider = new EventPipeProvider(
             ProviderName,

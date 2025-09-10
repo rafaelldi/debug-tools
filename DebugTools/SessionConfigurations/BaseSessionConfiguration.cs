@@ -2,7 +2,7 @@ using Microsoft.Diagnostics.NETCore.Client;
 
 namespace Monitor.SessionConfigurations;
 
-internal abstract class AbstractSessionConfiguration(int processId)
+internal abstract class BaseSessionConfiguration(int processId)
 {
     private const int DefaultCircularBufferMb = 256;
 

@@ -5,7 +5,7 @@ using Monitor.Common;
 
 namespace Monitor.SessionConfigurations;
 
-internal sealed class TriggerGCSessionConfiguration(int processId) : AbstractSessionConfiguration(processId)
+internal sealed class TriggerGCSessionConfiguration(int processId) : BaseSessionConfiguration(processId)
 {
     internal override EventPipeProvider Provider { get; } = new(
         ProviderNames.MicrosoftWindowsDotNetRuntime,
