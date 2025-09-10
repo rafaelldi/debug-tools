@@ -67,7 +67,9 @@ internal sealed class CounterService : MonitorAgent.CounterService.CounterServic
 
         var sessionConfiguration =
             new MetricsSessionConfiguration(request.ProcessId, meterName, refreshInterval);
+        var sessionHandler = new MetricSessionHandler(sessionConfiguration, channel.Writer);
+        var producerTask = sessionHandler.RunSession(sessionLifetime);
 
-        await Task.WhenAll(consumerTask);
+        await Task.WhenAll(producerTask, consumerTask);
     }
 }
