@@ -53,8 +53,8 @@ internal sealed class CounterSessionHandler(
     private void HandleEvent(TraceEvent evt)
     {
         if (evt.ProcessID != configuration.ProcessId) return;
-
         if (evt.EventName != EventName) return;
+        if (evt.ProviderName != configuration.ProviderName) return;
 
         var payloadVal = (IDictionary<string, object>)evt.PayloadValue(0);
         var payloadFields = (IDictionary<string, object>)payloadVal["Payload"];

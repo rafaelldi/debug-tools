@@ -23,14 +23,18 @@ internal sealed class CounterService : MonitorAgent.CounterService.CounterServic
             SingleWriter = true,
         });
 
-        var sessionLifetime = request.DurationInSeconds > 0
-            ? sessionLifetimeDef.Lifetime.CreateTerminatedAfter(TimeSpan.FromSeconds(request.DurationInSeconds))
+        int? duration = request.HasDurationInSeconds ? request.DurationInSeconds : null;
+        int? refreshInterval = request.HasRefreshIntervalInSeconds ? request.RefreshIntervalInSeconds : null;
+        var providerName = request.HasProviderName ? request.ProviderName : null;
+
+        var sessionLifetime = duration > 0
+            ? sessionLifetimeDef.Lifetime.CreateTerminatedAfter(TimeSpan.FromSeconds(duration.Value))
             : sessionLifetimeDef.Lifetime;
 
         var consumerTask = responseStream.WriteFromChannel(channel.Reader, sessionLifetime);
 
         var sessionConfiguration =
-            new EventCountersSessionConfiguration(request.ProcessId, request.RefreshIntervalInSeconds);
+            new EventCountersSessionConfiguration(request.ProcessId, providerName, refreshInterval);
         var sessionHandler = new CounterSessionHandler(sessionConfiguration, channel.Writer);
         var producerTask = sessionHandler.RunSession(sessionLifetime);
 

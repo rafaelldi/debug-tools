@@ -31,8 +31,16 @@ GRPC localhost:5197/monitor.CounterService/GetCounterStream
 
 {
   "process_id": {{process_id}},
+  "duration_in_seconds": 3
+}
+
+### Get process counters with non-default provider
+GRPC localhost:5197/monitor.CounterService/GetCounterStream
+
+{
+  "process_id": {{process_id}},
   "duration_in_seconds": 10,
-  "refresh_interval_in_seconds": 2
+  "provider_name": "Microsoft.AspNetCore.Hosting"
 }
 
 ### Collect process thread dump

@@ -5,14 +5,21 @@ option csharp_namespace = "MonitorAgent";
 package monitor;
 
 service CounterService {
-  // Get stream of dotnet event counters for the process
+  // Get stream of dotnet event counters for the process.
   rpc GetCounterStream (CounterStreamRequest) returns (stream CounterValue);
 }
 
 message CounterStreamRequest {
   int32 process_id = 1;
-  int32 duration_in_seconds = 2;
-  int32 refresh_interval_in_seconds = 3;
+  // If not specified, the stream will be alive until the cancellation.
+  optional int32 duration_in_seconds = 2;
+  // Default: 1 sec.
+  optional int32 refresh_interval_in_seconds = 3;
+  // Default: System.Runtime.
+  // Some possible values: Microsoft.AspNetCore.Hosting, Microsoft.AspNetCore.Http.Connections,
+  // Microsoft-AspNetCore-Server-Kestrel, System.Net.Http, System.Net.NameResolution, System.Net.Security,
+  // System.Net.Sockets.
+  optional string provider_name = 4;
 }
 
 enum CounterType {
