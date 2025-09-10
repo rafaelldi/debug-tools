@@ -1,60 +1,22 @@
-using System.Globalization;
 using System.Threading.Channels;
-using JetBrains.Lifetimes;
-using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing;
 using Monitor.SessionConfigurations;
 using MonitorAgent;
-using static JetBrains.Lifetimes.Lifetime;
 
 namespace Monitor.Counters;
 
 internal sealed class CounterSessionHandler(
     EventCountersSessionConfiguration configuration,
-    ChannelWriter<CounterValue> writer)
+    ChannelWriter<CounterValue> writer
+) : BaseCounterSessionHandler<EventCountersSessionConfiguration>(configuration, writer)
 {
     private const string EventName = "EventCounters";
 
-    internal async Task RunSession(Lifetime lifetime)
+    protected override void HandleEvent(TraceEvent evt)
     {
-        var client = new DiagnosticsClient(configuration.ProcessId);
-
-        var session = await client.StartEventPipeSessionAsync(
-            configuration.Provider,
-            configuration.RequestRundown,
-            configuration.CircularBufferMb,
-            lifetime
-        );
-        lifetime.AddDispose(session);
-
-        var source = new EventPipeEventSource(session.EventStream);
-        lifetime.AddDispose(source);
-
-        lifetime.Bracket(
-            () => source.Dynamic.All += HandleEvent,
-            () => source.Dynamic.All -= HandleEvent
-        );
-
-        var processingTask = lifetime.StartAttached(
-            TaskScheduler.Default,
-            () => source.Process()
-        );
-
-        var stoppingTask = lifetime.StartAttachedAsync(
-            TaskScheduler.Default,
-            async () => await WaitToCancellationAndStopSession(session)
-        );
-
-        await Task.WhenAll(processingTask, stoppingTask);
-
-        writer.Complete();
-    }
-
-    private void HandleEvent(TraceEvent evt)
-    {
-        if (evt.ProcessID != configuration.ProcessId) return;
+        if (evt.ProcessID != Configuration.ProcessId) return;
         if (evt.EventName != EventName) return;
-        if (evt.ProviderName != configuration.ProviderName) return;
+        if (evt.ProviderName != Configuration.ProviderName) return;
 
         var payloadVal = (IDictionary<string, object>)evt.PayloadValue(0);
         var payloadFields = (IDictionary<string, object>)payloadVal["Payload"];
@@ -66,11 +28,11 @@ internal sealed class CounterSessionHandler(
             evt.ProviderName,
             name,
             evt.TimeStamp,
-            configuration.RefreshInterval,
+            Configuration.RefreshInterval,
             payloadFields
         );
 
-        writer.TryWrite(counter);
+        Writer.TryWrite(counter);
     }
 
     private static CounterValue MapCounterEvent(
@@ -93,97 +55,6 @@ internal sealed class CounterSessionHandler(
         {
             var value = (double)payloadFields["Mean"];
             return MapToMetricCounter(timeStamp, displayName, displayUnits, providerName, value, null);
-        }
-    }
-
-    private static CounterValue MapToRateCounter(
-        DateTime timestamp,
-        string name,
-        string? units,
-        string providerName,
-        double value,
-        string? tags,
-        int refreshInterval)
-    {
-        var displayUnits = string.IsNullOrEmpty(units) ? "Count" : units;
-        var counter = new CounterValue
-        {
-            Timestamp = timestamp.ToString(CultureInfo.CurrentCulture),
-            Name = name,
-            DisplayName = $"{name} ({displayUnits} / {refreshInterval} sec)",
-            ProviderName = providerName,
-            Value = Math.Round(value, 2),
-            Type = CounterType.Rate
-        };
-
-        if (tags is not null)
-        {
-            counter.Tags = tags;
-        }
-
-        return counter;
-    }
-
-    private static CounterValue MapToMetricCounter(
-        DateTime timestamp,
-        string name,
-        string? units,
-        string providerName,
-        double value,
-        string? tags)
-    {
-        var counter = new CounterValue
-        {
-            Timestamp = timestamp.ToString(CultureInfo.CurrentCulture),
-            Name = name,
-            DisplayName = string.IsNullOrEmpty(units) ? name : $"{name} ({units})",
-            ProviderName = providerName,
-            Value = Math.Round(value, 2),
-            Type = CounterType.Metric
-        };
-
-        if (tags is not null)
-        {
-            counter.Tags = tags;
-        }
-
-        return counter;
-    }
-
-    private static async Task WaitToCancellationAndStopSession(EventPipeSession session)
-    {
-        try
-        {
-            await Task.Delay(-1, AsyncLocal.Value.ToCancellationToken());
-        }
-        catch (TaskCanceledException)
-        {
-            //do nothing
-        }
-
-        await UsingAsync(async lifetime => await StopSession(session, lifetime));
-    }
-
-    private static async Task StopSession(EventPipeSession session, Lifetime lifetime)
-    {
-        try
-        {
-            await session.StopAsync(lifetime.CreateTerminatedAfter(TimeSpan.FromSeconds(30)));
-        }
-        catch (EndOfStreamException)
-        {
-        }
-        catch (TimeoutException)
-        {
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (PlatformNotSupportedException)
-        {
-        }
-        catch (ServerNotAvailableException)
-        {
         }
     }
 }

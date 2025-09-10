@@ -7,6 +7,8 @@ package monitor;
 service CounterService {
   // Get stream of dotnet event counters for the process.
   rpc GetCounterStream (CounterStreamRequest) returns (stream CounterValue);
+  // Get stream of dotnet event counters for the process.
+  rpc GetMetricStream (MetricStreamRequest) returns (stream CounterValue);
 }
 
 message CounterStreamRequest {
@@ -20,6 +22,16 @@ message CounterStreamRequest {
   // Microsoft-AspNetCore-Server-Kestrel, System.Net.Http, System.Net.NameResolution, System.Net.Security,
   // System.Net.Sockets.
   optional string provider_name = 4;
+}
+
+message MetricStreamRequest {
+  int32 process_id = 1;
+  // If not specified, the stream will be alive until the cancellation.
+  optional int32 duration_in_seconds = 2;
+  // Default: 1 sec.
+  optional int32 refresh_interval_in_seconds = 3;
+  // Default: OpenTelemetry.Instrumentation.Runtime.
+  optional string meter_name = 4;
 }
 
 enum CounterType {

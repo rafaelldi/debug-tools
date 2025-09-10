@@ -40,4 +40,34 @@ internal sealed class CounterService : MonitorAgent.CounterService.CounterServic
 
         await Task.WhenAll(producerTask, consumerTask);
     }
+
+    public override async Task GetMetricStream(MetricStreamRequest request,
+        IServerStreamWriter<CounterValue> responseStream, ServerCallContext context)
+    {
+        using var lifetimeDef = new LifetimeDefinition();
+
+        var sessionLifetimeDef = lifetimeDef.Lifetime.CreateNested();
+        context.CancellationToken.Register(() => sessionLifetimeDef.Terminate());
+
+        var channel = Channel.CreateUnbounded<CounterValue>(new UnboundedChannelOptions
+        {
+            SingleReader = true,
+            SingleWriter = true,
+        });
+
+        int? duration = request.HasDurationInSeconds ? request.DurationInSeconds : null;
+        int? refreshInterval = request.HasRefreshIntervalInSeconds ? request.RefreshIntervalInSeconds : null;
+        var meterName = request.HasMeterName ? request.MeterName : null;
+
+        var sessionLifetime = duration > 0
+            ? sessionLifetimeDef.Lifetime.CreateTerminatedAfter(TimeSpan.FromSeconds(duration.Value))
+            : sessionLifetimeDef.Lifetime;
+
+        var consumerTask = responseStream.WriteFromChannel(channel.Reader, sessionLifetime);
+
+        var sessionConfiguration =
+            new MetricsSessionConfiguration(request.ProcessId, meterName, refreshInterval);
+
+        await Task.WhenAll(consumerTask);
+    }
 }
