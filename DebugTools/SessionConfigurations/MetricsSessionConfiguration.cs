@@ -9,7 +9,7 @@ internal sealed class MetricsSessionConfiguration : SessionConfigurationWithInte
     private const string SessionIdArgument = "SessionId";
     private const string MetricsArgument = "Metrics";
     private const string RefreshIntervalArgument = "RefreshInterval";
-    private const string DefaultMeter = "OpenTelemetry.Instrumentation.Runtime";
+    private const string DefaultMeter = "System.Runtime";
 
     internal string Metrics { get; }
     internal override EventPipeProvider Provider { get; }
